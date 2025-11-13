@@ -1,0 +1,4 @@
+{
+    "command": "npm run test",
+    "working_directory": "/home/kavia/workspace/code-generation/ott-platform-builder-90495-82934/frontend_app"
+}
