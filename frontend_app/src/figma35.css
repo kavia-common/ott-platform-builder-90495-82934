@@ -1,55 +1,115 @@
 :root {
-  /* Fallback colors if image fails to load */
-  --figma35-bg-base: #0b0b0d;
+  /* Fallback + theme tokens for screen 35 only (scoped usage) */
+  --figma35-bg-base: #0d0b07; /* deep yellowish-black */
+  --figma35-warm-tint: rgba(214, 169, 79, 0.10); /* warm golden tint at low opacity */
   --figma35-overlay-start: rgba(0, 0, 0, 0.55);
   --figma35-overlay-end: rgba(0, 0, 0, 0.05);
+  --figma35-watermark-color: rgba(255, 255, 255, 0.08); /* subtle light */
+  --figma35-watermark-alt: rgba(214, 169, 79, 0.12); /* subtle warm option */
 }
 
 /* PUBLIC_INTERFACE */
-/** 
+/**
  * figma35 background styles
  * This stylesheet mirrors the background of Figma screen 35 (4077-14472).
- * Layers:
- *  - Base background color as seen around/behind the image.
- *  - Background image from the provided asset.
- *  - A vertical overlay gradient to match Figma tonal falloff.
+ * Layering order (from back to front):
+ *  - Base: yellowish-black gradient with warm tint.
+ *  - Middle: @figma35 image (/assets/screen_4077-14472.png) with cover positioning.
+ *  - Top: Dark soft overlay to keep contrast.
+ *  - Watermark overlay (::before) with "Gladiador" text at low opacity.
  *
- * Notes:
- *  - Do not modify unrelated screens.
+ * Scope:
  *  - Apply only to elements with class .figma-screen-35.
  */
 .figma-screen-35 {
-  /* Base background similar to the Figma canvas tone behind the image */
+  /* Base background composed with subtle warm tint gradient */
   background-color: var(--figma35-bg-base);
-  /* Multiple backgrounds: topmost first (overlay), then the image */
   background-image:
+    /* Top overlay for legibility */
     linear-gradient(
       180deg,
       var(--figma35-overlay-start) 0%,
       var(--figma35-overlay-end) 55%,
-      rgba(0, 0, 0, 0) 100%
+      rgba(0, 0, 0, 0.0) 100%
     ),
-    url("/assets/screen_4077-14472.png");
-  /* Position the gradient and image independently (center the image) */
+    /* Middle: figma35 screen image */
+    url("/assets/screen_4077-14472.png"),
+    /* Base: yellowish-black gradient blend with warm tint */
+    radial-gradient(120% 120% at 50% 0%,
+      rgba(0,0,0,0.65) 0%,
+      rgba(0,0,0,0.72) 40%,
+      rgba(0,0,0,0.85) 100%
+    ),
+    linear-gradient(135deg, var(--figma35-warm-tint) 0%, rgba(0,0,0,0.0) 60%);
+
+  /* Position the overlay and image centered; base gradients can default */
   background-position:
     center center,
+    center center,
+    center center,
     center center;
-  /* Prevent tiling */
+
+  /* Prevent tiling except intentional gradients */
   background-repeat:
     no-repeat,
+    no-repeat,
+    no-repeat,
     no-repeat;
-  /* Cover to emulate Figma's fill behavior on hero/cover imagery */
+
+  /* Cover behavior for overlay and image; gradients auto-fill */
   background-size:
+    cover,
+    cover,
     cover,
     cover;
 
-  /* Ensure element can show full screen background when used as a page container */
+  /* Container sizing */
   min-height: 100vh;
   width: 100%;
-  /* Create stacking context to keep overlay contained if inner elements use z-index */
+
+  /* Create stacking context to keep overlays contained */
   position: relative;
+
   /* Smooth transitions if toggled in preview tools */
-  transition: background 200ms ease-in-out;
+  transition: background 200ms ease-in-out, color 200ms ease-in-out;
+
+  /* Ensure inner content remains readable */
+  color: inherit;
+}
+
+/* Watermark overlay using ::before to keep it above backgrounds but below content */
+.figma-screen-35::before {
+  content: "Gladiador";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0; /* Keep it behind content but above background layers */
+
+  /* Centered large watermark text; rotate slightly */
+  display: grid;
+  place-items: center;
+
+  /* Typography scaling with viewport */
+  font-size: clamp(64px, 10vw, 160px);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  /* Subtle light color; mix of warm and white via gradient mask */
+  color: transparent;
+  background-image:
+    linear-gradient(0deg, var(--figma35-watermark-alt), var(--figma35-watermark-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  transform: rotate(-18deg);
+  opacity: 0.12; /* final subtlety control */
+}
+
+/* Keep descendants above the ::before watermark layer */
+.figma-screen-35 > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Utility: when screen is used inside React root without extra wrappers, ensure full viewport coverage */
@@ -61,5 +121,5 @@
 /* Optional slot container: inner content wrapper can remain transparent */
 .figma-screen-35 .content {
   position: relative;
-  z-index: 1; /* keep above overlay imagery */
+  z-index: 1; /* keep above overlay imagery and watermark */
 }
