@@ -1,0 +1,65 @@
+:root {
+  /* Fallback colors if image fails to load */
+  --figma35-bg-base: #0b0b0d;
+  --figma35-overlay-start: rgba(0, 0, 0, 0.55);
+  --figma35-overlay-end: rgba(0, 0, 0, 0.05);
+}
+
+/* PUBLIC_INTERFACE */
+/** 
+ * figma35 background styles
+ * This stylesheet mirrors the background of Figma screen 35 (4077-14472).
+ * Layers:
+ *  - Base background color as seen around/behind the image.
+ *  - Background image from the provided asset.
+ *  - A vertical overlay gradient to match Figma tonal falloff.
+ *
+ * Notes:
+ *  - Do not modify unrelated screens.
+ *  - Apply only to elements with class .figma-screen-35.
+ */
+.figma-screen-35 {
+  /* Base background similar to the Figma canvas tone behind the image */
+  background-color: var(--figma35-bg-base);
+  /* Multiple backgrounds: topmost first (overlay), then the image */
+  background-image:
+    linear-gradient(
+      180deg,
+      var(--figma35-overlay-start) 0%,
+      var(--figma35-overlay-end) 55%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url("/assets/screen_4077-14472.png");
+  /* Position the gradient and image independently (center the image) */
+  background-position:
+    center center,
+    center center;
+  /* Prevent tiling */
+  background-repeat:
+    no-repeat,
+    no-repeat;
+  /* Cover to emulate Figma's fill behavior on hero/cover imagery */
+  background-size:
+    cover,
+    cover;
+
+  /* Ensure element can show full screen background when used as a page container */
+  min-height: 100vh;
+  width: 100%;
+  /* Create stacking context to keep overlay contained if inner elements use z-index */
+  position: relative;
+  /* Smooth transitions if toggled in preview tools */
+  transition: background 200ms ease-in-out;
+}
+
+/* Utility: when screen is used inside React root without extra wrappers, ensure full viewport coverage */
+#root > .figma-screen-35,
+.App > .figma-screen-35 {
+  min-height: 100vh;
+}
+
+/* Optional slot container: inner content wrapper can remain transparent */
+.figma-screen-35 .content {
+  position: relative;
+  z-index: 1; /* keep above overlay imagery */
+}
