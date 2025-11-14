@@ -1,0 +1,141 @@
+:root {
+  --screen35-font: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+
+  --screen35-typo-146-size: 20px; --screen35-typo-146-weight: 500; --screen35-typo-146-lh: 1.2; --screen35-typo-146-color: #e3e3e3;
+  --screen35-typo-149-size: 28px; --screen35-typo-149-weight: 700; --screen35-typo-149-lh: 1.2; --screen35-typo-149-color: #e3e3e3;
+  --screen35-typo-165-size: 28px; --screen35-typo-165-weight: 600; --screen35-typo-165-lh: 1.2; --screen35-typo-165-color: #e3e3e3;
+  --screen35-typo-166-size: 64px; --screen35-typo-166-weight: 700; --screen35-typo-166-lh: 1.1; --screen35-typo-166-color: #ffffff;
+  --screen35-typo-167-size: 24px; --screen35-typo-167-weight: 500; --screen35-typo-167-lh: 1.2; --screen35-typo-167-color: #e3e3e3;
+  --screen35-typo-168-size: 20px; --screen35-typo-168-weight: 600; --screen35-typo-168-lh: 1.0; --screen35-typo-168-color: #111;
+  --screen35-typo-169-size: 20px; --screen35-typo-169-weight: 700; --screen35-typo-169-lh: 1.0; --screen35-typo-169-color: #111; --screen35-typo-169-ls: 0.06em;
+  --screen35-typo-170-size: 28px; --screen35-typo-170-weight: 600; --screen35-typo-170-lh: 1.0; --screen35-typo-170-color: #e3e3e3;
+  --screen35-typo-171-size: 22px; --screen35-typo-171-weight: 400; --screen35-typo-171-lh: 1.5; --screen35-typo-171-color: #f5f5f5cc;
+  --screen35-typo-172-size: 20px; --screen35-typo-172-weight: 600; --screen35-typo-172-lh: 1.0; --screen35-typo-172-color: #e3e3e3;
+  --screen35-typo-173-size: 36px; --screen35-typo-173-weight: 700; --screen35-typo-173-lh: 1.0; --screen35-typo-173-color: #ffffff;
+
+  --screen35-chip-bg: rgba(255,255,255,0.9);
+  --screen35-chip-fg: #111;
+  --screen35-chip-radius: 6px;
+
+  --screen35-bg: #000;
+}
+
+.screen35-viewport {
+  /* Center the scaled canvas in the available viewport and avoid scrollbars */
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--screen35-bg);
+  /* compute scale based on min of width/height fit; clamp to reasonable max to avoid pixel blur on huge monitors */
+  --scale: min(calc(100vw / 1920), calc(100vh / 1080));
+  --scale: clamp(0.167, var(--scale), 1); /* min ~320px wide -> 320/1920 ≈ 0.167; max 1:1 at 1920x1080+ */
+  overflow: hidden;
+  z-index: 0;
+}
+
+.screen35-canvas {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  transform-origin: top left;
+  transform: scale(var(--scale));
+  overflow: hidden;
+  background: #101218;
+  font-family: var(--screen35-font);
+}
+
+/* Background layers from extracted CSS */
+.layer-image {
+  position: absolute;
+  left: 0; top: 0; width: 1920px; height: 1080px;
+  z-index: 1;
+  background:
+    radial-gradient(1200px 600px at 30% 20%, rgba(255,255,255,0.1), transparent 70%),
+    linear-gradient(120deg, #2a2d34 0%, #1b1e26 50%, #101218 100%);
+}
+.layer-gradient {
+  position: absolute;
+  left:0; top:0; width:1920px; height:1080px;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.75) 100%);
+}
+
+/* Typography mirrors */
+.typo-146,.typo-149,.typo-165,.typo-166,.typo-167,.typo-168,.typo-169,.typo-170,.typo-171,.typo-172,.typo-173 { display:inline-block; white-space:nowrap; }
+.typo-146 { font: var(--screen35-typo-146-weight) var(--screen35-typo-146-size)/var(--screen35-typo-146-lh) var(--screen35-font); color: var(--screen35-typo-146-color); }
+.typo-149 { font: var(--screen35-typo-149-weight) var(--screen35-typo-149-size)/var(--screen35-typo-149-lh) var(--screen35-font); color: var(--screen35-typo-149-color); }
+.typo-165 { font: var(--screen35-typo-165-weight) var(--screen35-typo-165-size)/var(--screen35-typo-165-lh) var(--screen35-font); color: var(--screen35-typo-165-color); }
+.typo-166 { font: var(--screen35-typo-166-weight) var(--screen35-typo-166-size)/var(--screen35-typo-166-lh) var(--screen35-font); color: var(--screen35-typo-166-color); }
+.typo-167 { font: var(--screen35-typo-167-weight) var(--screen35-typo-167-size)/var(--screen35-typo-167-lh) var(--screen35-font); color: var(--screen35-typo-167-color); }
+.typo-168 { font: var(--screen35-typo-168-weight) var(--screen35-typo-168-size)/var(--screen35-typo-168-lh) var(--screen35-font); color: var(--screen35-typo-168-color); }
+.typo-169 { font: var(--screen35-typo-169-weight) var(--screen35-typo-169-size)/var(--screen35-typo-169-lh) var(--screen35-font); color: var(--screen35-typo-169-color); letter-spacing: var(--screen35-typo-169-ls); }
+.typo-170 { font: var(--screen35-typo-170-weight) var(--screen35-typo-170-size)/var(--screen35-typo-170-lh) var(--screen35-font); color: var(--screen35-typo-170-color); }
+.typo-171 { font: var(--screen35-typo-171-weight) var(--screen35-typo-171-size)/var(--screen35-typo-171-lh) var(--screen35-font); color: var(--screen35-typo-171-color); white-space: normal; }
+.typo-172 { font: var(--screen35-typo-172-weight) var(--screen35-typo-172-size)/var(--screen35-typo-172-lh) var(--screen35-font); color: var(--screen35-typo-172-color); }
+.typo-173 { font: var(--screen35-typo-173-weight) var(--screen35-typo-173-size)/var(--screen35-typo-173-lh) var(--screen35-font); color: var(--screen35-typo-173-color); }
+
+.divider { opacity: 0.8; }
+
+.metadata-panel { position:absolute; z-index:3; color: var(--screen35-typo-167-color); }
+
+.age-chip,
+.timestamp-chip {
+  background: var(--screen35-chip-bg);
+  color: var(--screen35-chip-fg);
+  border-radius: var(--screen35-chip-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.time-row .icon-32 {
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Clamp lines for the paragraph within its fixed box */
+.textbox3 .multiline {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.panel-buttons { position:absolute; }
+.panel-btn {
+  position: absolute;
+  width: 142px; height: 156px;
+  background: transparent;
+  border: none; padding: 0;
+  cursor: pointer;
+}
+.panel-btn .btn-icon {
+  position: absolute;
+  left: 19px; top: 8px;
+  width: 104px; height: 80px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  box-shadow: 0 4px 6px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08);
+}
+.panel-btn .btn-label {
+  position: absolute;
+  left: 2px; top: 104px; width: 138px; height: 24px;
+  text-align: center;
+}
+.panel-btn.focused .btn-icon,
+.panel-btn:focus .btn-icon {
+  outline: 2px solid rgba(255,255,255,0.9);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+}
+
+.system-date { position:absolute; z-index: 4; text-align:right; }
+
+/* Prevent outer document scrollbars when rendering this screen full-viewport */
+html, body, #root {
+  height: 100%;
+}
