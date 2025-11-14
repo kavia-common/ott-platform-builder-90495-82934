@@ -11,3 +11,33 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Global placeholder color to white with cross-browser support.
+   Keep opacity at 1 for visibility on dark backgrounds.
+   Do not affect normal input text colors. */
+html body input::placeholder,
+html body textarea::placeholder,
+html body select::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+/* WebKit/Blink (Chrome, Safari, newer Edge) */
+html body input::-webkit-input-placeholder,
+html body textarea::-webkit-input-placeholder,
+html body select::-webkit-input-placeholder {
+  color: #ffffff;
+}
+
+/* Legacy IE/Edge */
+html body input:-ms-input-placeholder,
+html body textarea:-ms-input-placeholder,
+html body select:-ms-input-placeholder {
+  color: #ffffff;
+}
+
+html body input::-ms-input-placeholder,
+html body textarea::-ms-input-placeholder,
+html body select::-ms-input-placeholder {
+  color: #ffffff;
+}

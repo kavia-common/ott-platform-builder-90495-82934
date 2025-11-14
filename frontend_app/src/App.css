@@ -102,3 +102,29 @@
     font-size: 12px;
   }
 }
+
+/* Scoped placeholder styling within .App (complement to global index.css). */
+.App input::placeholder,
+.App textarea::placeholder,
+.App select::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.App input::-webkit-input-placeholder,
+.App textarea::-webkit-input-placeholder,
+.App select::-webkit-input-placeholder {
+  color: #ffffff;
+}
+
+.App input:-ms-input-placeholder,
+.App textarea:-ms-input-placeholder,
+.App select:-ms-input-placeholder {
+  color: #ffffff;
+}
+
+.App input::-ms-input-placeholder,
+.App textarea::-ms-input-placeholder,
+.App select::-ms-input-placeholder {
+  color: #ffffff;
+}
